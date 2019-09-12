@@ -4,6 +4,7 @@ from pandas import Series
 import io
 import random
 import copy
+import logging
 
 import torch
 from torch.utils.data import Dataset 
@@ -14,6 +15,13 @@ from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 import torch.distributed as dist
 
+
+logging.basicConfig(
+    format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
+    datefmt="%m/%d/%Y %H:%M:%S",
+    level=logging.INFO,
+)
+logger = logging.getLogger(__name__)
 
 def get_dist_info():
     initialized = dist.is_initialized()
@@ -142,6 +150,7 @@ class ConceptCapDataset(Dataset):
         self.create_language_id2val()
 
         self.tokenizer = tokenizer
+        print("-------------------------------------------1---------------")
 
 
 
@@ -176,7 +185,7 @@ class ConceptCapDataset(Dataset):
                                 file_pos = f.tell()
                                 self.language_ids.extend([file+"#"+str(file_pos)])
                 pickle.dump(self.language_ids,open(os.path.join(self.data_path,"val_language_all_ids.pkl"),'wb'))
-
+        print("------------------------------------2-----------------------------------------")
     
 
     def random_cap(self, caption):
