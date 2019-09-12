@@ -512,10 +512,7 @@ def build_dataloader(data_path,
         batch_size = imgs_per_gpu
         num_workers = workers_per_gpu
     else:
-        if not kwargs.get('shuffle', True):
-            sampler = None
-        else:
-            sampler = Sampler(dataset)
+        sampler = None
         batch_size = num_gpus * imgs_per_gpu
         num_workers = num_gpus * workers_per_gpu
     data_loader = DataLoader(
