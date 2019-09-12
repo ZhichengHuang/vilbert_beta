@@ -298,7 +298,7 @@ def main():
         workers_per_gpu=args.num_workers,
         distributed=args.distributed
     )
-    val_dataset = build_dataloader(
+    validation_dataset = build_dataloader(
         args.data_path,
         tokenizer,
         data_split="val",
