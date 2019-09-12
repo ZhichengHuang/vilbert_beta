@@ -139,7 +139,7 @@ class ConceptCapDataset(Dataset):
         Load the dataset and sample the 
         """
         self.data_path = data_path
-        self.data_split = data_split,
+        self.data_split = data_split
         self.region_len=region_len
         self.visualization = visualization
         self.seq_len=seq_len
