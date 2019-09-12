@@ -455,7 +455,7 @@ def main():
             )
 
     logger.info("***** Running training *****")
-    logger.info("  Num examples = %d", train_dataset.num_dataset)
+    logger.info("  Num examples = %d", len(train_dataset))
     logger.info("  Batch size = %d", args.train_batch_size)
     logger.info("  Num steps = %d", num_train_optimization_steps)
 
