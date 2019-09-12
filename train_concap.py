@@ -21,7 +21,7 @@ from tensorboardX import SummaryWriter
 from pytorch_pretrained_bert.tokenization import BertTokenizer
 from pytorch_pretrained_bert.optimization import BertAdam, WarmupLinearSchedule
 
-from vilbert.datasets import ConceptCapLoaderTrain, ConceptCapLoaderVal
+from vilbert.datasets import ConceptCapLoaderTrain, ConceptCapLoaderVal,build_dataloader
 from vilbert.vilbert import BertForMultiModalPreTraining, BertConfig
 import torch.distributed as dist
 
@@ -40,15 +40,8 @@ def main():
 
     # Required parameters
     parser.add_argument(
-        "--train_file",
-        default="data/conceptual_caption/training",
-        type=str,
-        # required=True,
-        help="The input train corpus.",
-    )
-    parser.add_argument(
-        "--validation_file",
-        default="data/conceptual_caption/validation",
+        "--data_path",
+        default="data/conceptual_caption/",
         type=str,
         # required=True,
         help="The input train corpus.",
@@ -274,30 +267,52 @@ def main():
 
     viz = TBlogger("logs", timeStamp)
 
-    train_dataset = ConceptCapLoaderTrain(
-        args.train_file,
-        tokenizer,
-        seq_len=args.max_seq_length,
-        batch_size=args.train_batch_size,
-        predict_feature=args.predict_feature,
-        num_workers=args.num_workers,
-        distributed=args.distributed,
-    )
+    # train_dataset = ConceptCapLoaderTrain(
+    #     args.train_file,
+    #     tokenizer,
+    #     seq_len=args.max_seq_length,
+    #     batch_size=args.train_batch_size,
+    #     predict_feature=args.predict_feature,
+    #     num_workers=args.num_workers,
+    #     distributed=args.distributed,
+    # )
 
-    validation_dataset = ConceptCapLoaderVal(
-        args.validation_file,
+    # validation_dataset = ConceptCapLoaderVal(
+    #     args.validation_file,
+    #     tokenizer,
+    #     seq_len=args.max_seq_length,
+    #     batch_size=args.train_batch_size,
+    #     predict_feature=args.predict_feature,
+    #     num_workers=2,
+    #     distributed=args.distributed,
+    # )
+
+    train_dataset = build_dataloader(
+        args.data_path,
         tokenizer,
+        data_split="train",
         seq_len=args.max_seq_length,
-        batch_size=args.train_batch_size,
+        region_len=100,
+        imgs_per_gpu=args.train_batch_size,
         predict_feature=args.predict_feature,
-        num_workers=2,
-        distributed=args.distributed,
+        workers_per_gpu=args.num_workers,
+        distributed=args.distributed
+    )
+    val_dataset = build_dataloader(
+        args.data_path,
+        tokenizer,
+        data_split="val",
+        seq_len=args.max_seq_length,
+        region_len=100,
+        imgs_per_gpu=args.train_batch_size,
+        predict_feature=args.predict_feature,
+        workers_per_gpu=args.num_workers,
+        distributed=args.distributed
     )
 
     num_train_optimization_steps = (
         int(
-            train_dataset.num_dataset
-            / args.train_batch_size
+            len(train_dataset)
             / args.gradient_accumulation_steps
         )
         * (args.num_train_epochs - args.start_epoch)
