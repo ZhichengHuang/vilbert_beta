@@ -498,7 +498,8 @@ def build_dataloader(data_path,
                 shuffle=False,
                 distributed=True,
                 predict_feature=False,
-                visualization=False):
+                visualization=False,
+                num_gpus=1):
     dataset = ConceptCapDataset(data_path,
                 tokenizer,
                 seq_len,
@@ -521,8 +522,7 @@ def build_dataloader(data_path,
         sampler=sampler,
         num_workers=num_workers,
         #collate_fn=trim_collate,  # partial(collate, samples_per_gpu=imgs_per_gpu),
-        pin_memory=True,
-        **kwargs)
+        pin_memory=True)
     return data_loader
     
     
