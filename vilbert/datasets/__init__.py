@@ -1,7 +1,7 @@
 from .concept_cap_dataset import ConceptCapLoaderTrain, ConceptCapLoaderVal, ConceptCapLoaderRetrieval
 from .concept_cap_dataset_zip import build_dataloader
 from .vqa_dataset import VQAClassificationDataset
-from .refer_expression_dataset import ReferExpressionDataset
+#from .refer_expression_dataset import ReferExpressionDataset
 from .retreival_dataset import RetreivalDataset, RetreivalDatasetVal
 from .vcr_dataset import VCRDataset
 
@@ -24,7 +24,7 @@ DatasetMapTrain = {
 				   'TASK1': VCRDataset,
 				   'TASK2': VCRDataset,				   
 				   'TASK3': RetreivalDataset,
-				   'TASK4': ReferExpressionDataset,
+				   #'TASK4': ReferExpressionDataset,
 				   }		
 
 DatasetMapEval = {
@@ -32,5 +32,5 @@ DatasetMapEval = {
 				 'TASK1': VCRDataset,
 				 'TASK2': VCRDataset,				   
 				 'TASK3': RetreivalDatasetVal,
-				 'TASK4': ReferExpressionDataset,			   
+				 #'TASK4': ReferExpressionDataset,			   
 				}
