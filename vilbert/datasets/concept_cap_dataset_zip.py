@@ -150,7 +150,6 @@ class ConceptCapDataset(Dataset):
         self.create_language_id2val()
 
         self.tokenizer = tokenizer
-        print("-------------------------------------------1---------------")
 
 
 
@@ -185,7 +184,6 @@ class ConceptCapDataset(Dataset):
                                 file_pos = f.tell()
                                 self.language_ids.extend([file+"#"+str(file_pos)])
                 pickle.dump(self.language_ids,open(os.path.join(self.data_path,"val_language_all_ids.pkl"),'wb'))
-        print("------------------------------------2-----------------------------------------",len(self.language_ids))
     
 
     def random_cap(self, caption):
