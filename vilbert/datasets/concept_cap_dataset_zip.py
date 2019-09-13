@@ -486,7 +486,7 @@ class ConceptCapDataset(Dataset):
         tmp_image =self.zip_reader.read(os.path.join(self.data_path,self.data_split+"_features.zip"),feature_name,0)
 
         with contextlib.closing(io.BytesIO(tmp_image)) as f:
-            img = np.load(f,all_pickle=True).item()
+            img = np.load(f,allow_pickle=True).item()
         
         out=self.process_item(cap,img)
         return out,ids
