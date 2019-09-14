@@ -420,7 +420,7 @@ class ConceptCapDataset(Dataset):
         return image_feat, image_loc, output_label
 
     def process_item(self, caption,img):
-        image_feature,image_target,image_location_ws,image_h,image_w= img['feature'],img['label'],img['box'],img['width'],img['height']# w,h,w,h
+        image_feature,image_target,image_location_ws,image_h,image_w= img['feature'],img['label'].astype(np.float),img['box'],img['width'],img['height']# w,h,w,h
         image_location = np.zeros((self.region_len,5),dtype=np.float32)
         image_location[:self.region_len,:4] = image_location_ws
 
