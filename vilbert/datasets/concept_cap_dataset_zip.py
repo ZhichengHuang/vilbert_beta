@@ -492,7 +492,7 @@ class ConceptCapDataset(Dataset):
         out.append(torch.Tensor(int(ids)))
         for item in out:
             print(type(item))
-            print(item.size())
+            print(item.shape)
         return out
 
     def __len__(self):
