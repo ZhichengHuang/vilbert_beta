@@ -420,7 +420,7 @@ class ConceptCapDataset(Dataset):
         return image_feat, image_loc, output_label
 
     def process_item(self, caption,img):
-        image_feature,image_target,image_location_ws,image_h,image_w= img['feature'],img['label'].astype(np.float),img['box'],img['width'],img['height']# w,h,w,h
+        image_feature,image_target,image_location_ws,image_h,image_w= img['feature'],img['label'],img['box'],img['width'],img['height']# w,h,w,h
         image_location = np.zeros((self.region_len,5),dtype=np.float32)
         image_location[:self.region_len,:4] = image_location_ws
 
@@ -430,6 +430,8 @@ class ConceptCapDataset(Dataset):
         image_location[:,1] = image_location[:,1] / float(image_h)
         image_location[:,2] = image_location[:,2] / float(image_w)
         image_location[:,3] = image_location[:,3] / float(image_h)
+
+        # image_target = np.zeros((self.region_len, 1601), dtype=np.float32)
         
         if self.predict_feature:
             image_feature = copy.deepcopy(image_feature)
@@ -503,9 +505,12 @@ class ConceptCapDataset(Dataset):
         g_image_mask = np.array([1])
         _image_mask = np.concatenate([g_image_mask,_image_mask],axis=0)
 
+        image_target = torch.zeros((self.region_len, 1601))
+        torch.scatter_(dim=1,index=torch.LongTensor(_image_target),1)
+
         outputs = [_input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, _image_target, _image_label, _image_mask, _image_id]
 
-        outputs = [torch.from_numpy(item) for item in outputs]
+        outputs = [torch.Tensor(item) for item in outputs]
 
         # for j,item in enumerate(out):
         #     print(j,"=",item)
