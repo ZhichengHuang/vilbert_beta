@@ -506,9 +506,9 @@ class ConceptCapDataset(Dataset):
         _image_mask = np.concatenate([g_image_mask,_image_mask],axis=0)
 
         image_target = torch.zeros((self.region_len, 1601))
-        torch.scatter_(dim=1,index=torch.LongTensor(_image_target),1)
+        torch.scatter_(dim=1,index=torch.LongTensor(_image_target),src=image_target,value=1.)
 
-        outputs = [_input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, _image_target, _image_label, _image_mask, _image_id]
+        outputs = [_input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, image_target, _image_label, _image_mask, _image_id]
 
         outputs = [torch.Tensor(item) for item in outputs]
 
