@@ -490,6 +490,8 @@ class ConceptCapDataset(Dataset):
         
         out=self.process_item(cap,img)
         out.append(torch.Tensor(int(ids)))
+        for item in out:
+            print(out.size())
         return out
 
     def __len__(self):
