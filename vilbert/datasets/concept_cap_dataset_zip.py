@@ -490,10 +490,27 @@ class ConceptCapDataset(Dataset):
         
         out=self.process_item(cap,img)
         out.append(np.array([int(ids)]))
+        
+        _input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, _image_target, _image_label, _image_mask, _image_id = out
+        g_image_feat = np.sum(_image_feat,axis=0,keepdims=True)/np.sum(_image_mask,axis=0,keepdims=True)
+        _image_feat = np.concatenate([g_image_feat, _image_feat],axis=0)
+        _image_feat = np.array(_image_feat,dtype=np.float32)
+
+        g_image_loc = np.array([0,0,1,1,1],dtype=np.float32).reshape((1,5))
+        _image_loc = np.concatenate([g_image_loc,_image_loc],axis=0)
+        _image_loc = np.array(_image_loc)
+
+        g_image_mask = np.array([1])
+        _image_mask = np.concatenate([g_image_mask,_image_mask],axis=0)
+
+        outputs = [_input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, _image_target, _image_label, _image_mask, _image_id]
+
+        outputs = [torch.from_numpy(item) for item in outputs]
+
         # for j,item in enumerate(out):
         #     print(j,"=",item)
 
-        return out
+        return outputs
 
     def __len__(self):
         return len(self.language_ids)
