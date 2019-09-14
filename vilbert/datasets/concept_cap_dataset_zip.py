@@ -453,7 +453,7 @@ class ConceptCapDataset(Dataset):
         # transform sample to features
         cur_features = self.convert_example_to_features(cur_example, self.seq_len, self.tokenizer, self.region_len)
         
-        cur_tensors = (
+        cur_tensors = [
             cur_features.input_ids,
             cur_features.input_mask,
             cur_features.segment_ids,
@@ -464,7 +464,7 @@ class ConceptCapDataset(Dataset):
             cur_features.image_target,
             cur_features.image_label,
             cur_features.image_mask,
-        )
+        ]
         return cur_tensors
     
 
@@ -489,7 +489,7 @@ class ConceptCapDataset(Dataset):
             img = np.load(f,allow_pickle=True).item()
         
         out=self.process_item(cap,img)
-        return out,ids
+        return out.append(torch.Tensor(ids))
 
     def __len__(self):
         return len(self.language_ids)
