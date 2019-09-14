@@ -507,10 +507,11 @@ class ConceptCapDataset(Dataset):
 
         image_target = torch.zeros((self.region_len, 1601))
         image_target.scatter_(dim=1,index=torch.LongTensor(_image_target).view(-1,1),value=1.)
+        image_target = image_target.numpy()
 
         outputs = [_input_ids, _input_mask, _segment_ids, _lm_label_ids, _is_next, _image_feat, _image_loc, image_target, _image_label, _image_mask, _image_id]
 
-        outputs = [torch.Tensor(item) for item in outputs]
+        # outputs = [torch.Tensor(item) for item in outputs]
 
         # for j,item in enumerate(out):
         #     print(j,"=",item)
