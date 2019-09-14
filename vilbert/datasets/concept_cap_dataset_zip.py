@@ -489,9 +489,9 @@ class ConceptCapDataset(Dataset):
             img = np.load(f,allow_pickle=True).item()
         
         out=self.process_item(cap,img)
-        out.append(np.array([int(ids)]))
-        for j,item in enumerate(out):
-            print(j,"=",item)
+        # out.append(np.array([int(ids)]))
+        # for j,item in enumerate(out):
+        #     print(j,"=",item)
 
         return out
 
