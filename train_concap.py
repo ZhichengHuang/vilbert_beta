@@ -354,9 +354,9 @@ def main():
             raise ImportError(
                 "Please install apex from https://www.github.com/nvidia/apex to use distributed and fp16 training."
             )
-        # model = DDP(model)
-        model = torch.nn.parallel.DistributedDataParallel(self.model.cuda(), [torch.cuda.current_device()],
-                                                                       find_unused_parameters=True)
+        model = DDP(model)
+        # model = torch.nn.parallel.DistributedDataParallel(model.cuda(), [torch.cuda.current_device()],
+        #                                                                find_unused_parameters=True)
     elif n_gpu > 1:
         model = torch.nn.DataParallel(model)
 
