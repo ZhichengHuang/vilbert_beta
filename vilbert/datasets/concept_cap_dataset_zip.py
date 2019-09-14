@@ -489,7 +489,8 @@ class ConceptCapDataset(Dataset):
             img = np.load(f,allow_pickle=True).item()
         
         out=self.process_item(cap,img)
-        return out.append(torch.Tensor(int(ids)))
+        out.append(torch.Tensor(int(ids)))
+        return out
 
     def __len__(self):
         return len(self.language_ids)
