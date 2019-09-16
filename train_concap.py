@@ -287,7 +287,7 @@ def main():
     #     distributed=args.distributed,
     # )
 
-    train_dataset = build_dataloader(
+    train_dataset ,train_sampler= build_dataloader(
         args.data_path,
         tokenizer,
         data_split="train",
@@ -298,7 +298,7 @@ def main():
         workers_per_gpu=args.num_workers,
         distributed=args.distributed
     )
-    validation_dataset = build_dataloader(
+    validation_dataset,val_sampler = build_dataloader(
         args.data_path,
         tokenizer,
         data_split="val",
@@ -474,6 +474,7 @@ def main():
         model.train()
         tr_loss = 0
         nb_tr_examples, nb_tr_steps = 0, 0
+        train_sampler.set_epoch(epochId)
 
         # iter_dataloader = iter(train_dataloader)
         for step, batch in enumerate(train_dataset):
@@ -600,6 +601,7 @@ def main():
         eval_total_loss = 0
 
         model.eval()
+        val_sampler.set_epoch(epochId)
         for step, batch in enumerate(validation_dataset):
             batch = tuple(t.cuda(device=device, non_blocking=True) for t in batch)
 

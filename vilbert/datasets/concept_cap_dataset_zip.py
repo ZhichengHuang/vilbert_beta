@@ -559,7 +559,7 @@ def build_dataloader(data_path,
         num_workers=num_workers,
         #collate_fn=trim_collate,  # partial(collate, samples_per_gpu=imgs_per_gpu),
         pin_memory=True)
-    return data_loader
+    return data_loader,sampler
     
     
         
