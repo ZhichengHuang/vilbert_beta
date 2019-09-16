@@ -548,10 +548,10 @@ def build_dataloader(data_path,
         sampler = DistributedSampler(dataset)
         batch_size = imgs_per_gpu
         num_workers = workers_per_gpu
-    else:
-        sampler = None
-        batch_size = num_gpus * imgs_per_gpu
-        num_workers = num_gpus * workers_per_gpu
+    # else:
+    #     sampler = None
+    #     batch_size = num_gpus * imgs_per_gpu
+    #     num_workers = num_gpus * workers_per_gpu
     data_loader = DataLoader(
         dataset,
         batch_size=batch_size,
