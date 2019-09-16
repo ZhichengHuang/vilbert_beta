@@ -317,10 +317,10 @@ def main():
         )
         * (args.num_train_epochs - args.start_epoch)
     )
-    # if args.local_rank != -1:
-    #     num_train_optimization_steps = (
-    #         num_train_optimization_steps // torch.distributed.get_world_size()
-    #     )
+    if args.local_rank != -1:
+        num_train_optimization_steps = (
+            num_train_optimization_steps // torch.distributed.get_world_size()
+        )
 
     default_gpu = False
     if dist.is_available() and args.distributed:
