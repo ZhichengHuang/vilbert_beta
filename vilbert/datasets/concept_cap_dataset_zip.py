@@ -164,10 +164,11 @@ class ConceptCapDataset(Dataset):
                         data_full_path = os.path.join(self.data_path,file)
                         with open(data_full_path,'r', encoding='utf-8') as f:
                             file_pos = f.tell()
-                            self.language_ids.extend([file+"#"+str(file_pos)])
+                            self.language_ids.append(file+"#"+str(file_pos))
                             while f.readline() !="":
                                 file_pos = f.tell()
-                                self.language_ids.extend([file+"#"+str(file_pos)])
+                                self.language_ids.append(file+"#"+str(file_pos))
+                            self.language_ids = self.language_ids[:-1]
                 pickle.dump(self.language_ids,open(os.path.join(self.data_path,"train_language_all_ids.pkl"),'wb'))
         
         elif self.data_split == "val":
@@ -179,10 +180,11 @@ class ConceptCapDataset(Dataset):
                         data_full_path = os.path.join(self.data_path,file)
                         with open(data_full_path,'r', encoding='utf-8') as f:
                             file_pos = f.tell()
-                            self.language_ids.extend([file+"#"+str(file_pos)])
+                            self.language_ids.append(file+"#"+str(file_pos))
                             while f.readline() !="":
                                 file_pos = f.tell()
-                                self.language_ids.extend([file+"#"+str(file_pos)])
+                                self.language_ids.append(file+"#"+str(file_pos))
+                            self.language_ids = self.language_ids[:-1]
                 pickle.dump(self.language_ids,open(os.path.join(self.data_path,"val_language_all_ids.pkl"),'wb'))
     
 
