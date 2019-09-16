@@ -543,11 +543,11 @@ def build_dataloader(data_path,
                 data_split,
                 predict_feature,
                 visualization)
-    if distributed:
-        rank, world_size = get_dist_info()
-        sampler = DistributedSampler(dataset)
-        batch_size = imgs_per_gpu
-        num_workers = workers_per_gpu
+    
+    rank, world_size = get_dist_info()
+    sampler = DistributedSampler(dataset)
+    batch_size = imgs_per_gpu
+    num_workers = workers_per_gpu
     # else:
     #     sampler = None
     #     batch_size = num_gpus * imgs_per_gpu
